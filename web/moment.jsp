@@ -266,13 +266,13 @@
 
 
             $(".btnSend").click(function(){
-                alert("评论成功!!!"+$("input[name='comment']").html());
-
-                var url = $(this).children("img").attr("src");
-                var msgID = $(this).parent().parent().parent().children(".item").attr("msgID");
-                var headImg = $("#container").children("#header").children("#myHeadImg").attr("src").substr(4);
+                var msgID = $(this).parent().parent().parent().parent().children(".item").attr("msgID");
                 var username = $("#container").children("#header").children(".title").html();
-                var cmtContent = '';
+                var cmtContent = $(this).parent().children("input").val();
+
+//              alert("评论成功!!!--------"+msgID+"--------"+cmtContent+"------"+username);
+                location.href = "moment?method=insertComment&cmtUsername=" + username + "&cmtContent=" + cmtContent + "&msgID=" + msgID + "&liked=0";
+
 
             })
 
@@ -366,7 +366,7 @@
             }
 
             out.println("<div class='showInput'>" +
-                    "<input class='textInputComment' type='text' name='comment'>" +
+                    "<input class='textInputComment' type='text' name='comment'/>" +
                     "<button class='btnSend'>发送</button>" +
                     "</div></div>");
             out.println("</div>");

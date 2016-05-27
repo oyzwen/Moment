@@ -105,9 +105,11 @@
       <file leaf-file-name="moment.jsp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/moment.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.428934">
-              <caret line="268" column="64" selection-start-line="268" selection-start-column="64" selection-end-line="268" selection-end-column="64" />
-              <folding />
+            <state vertical-scroll-proportion="0.6472081">
+              <caret line="270" column="17" selection-start-line="270" selection-start-column="17" selection-end-line="270" selection-end-column="17" />
+              <folding>
+                <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1337,12 +1339,12 @@
       <workItem from="1463191544343" duration="19641000" />
       <workItem from="1463387766028" duration="66878000" />
       <workItem from="1464166187939" duration="13681000" />
-      <workItem from="1464275986259" duration="3045000" />
+      <workItem from="1464275986259" duration="4269000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103245000" />
+    <option name="totallyTimeSpent" value="104469000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
@@ -1392,12 +1394,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/web/moment.jsp</url>
-          <line>246</line>
+          <line>268</line>
           <properties />
-          <option name="timeStamp" value="26" />
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="27" />
+      <option name="time" value="29" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1438,7 +1440,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1500,7 +1504,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="355" column="35" selection-start-line="355" selection-start-column="30" selection-end-line="355" selection-end-column="35" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1743,9 +1749,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/moment.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.428934">
-          <caret line="268" column="64" selection-start-line="268" selection-start-column="64" selection-end-line="268" selection-end-column="64" />
-          <folding />
+        <state vertical-scroll-proportion="0.6472081">
+          <caret line="270" column="17" selection-start-line="270" selection-start-column="17" selection-end-line="270" selection-end-column="17" />
+          <folding>
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
