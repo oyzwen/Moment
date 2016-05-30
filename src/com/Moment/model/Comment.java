@@ -4,11 +4,11 @@ package com.Moment.model;
  * Created by ow on 16/5/14.
  */
 public class Comment {
-    public int getCmtID() {
+    public String getCmtID() {
         return cmtID;
     }
 
-    public void setCmtID(int cmtID) {
+    public void setCmtID(String cmtID) {
         this.cmtID = cmtID;
     }
 
@@ -44,7 +44,7 @@ public class Comment {
         this.msgID = msgID;
     }
 
-    private int cmtID;
+    private String cmtID;
     private String cmtUsername;
     private String cmtContent;
     private String liked;//点赞  0 false 1 true;

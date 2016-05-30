@@ -37,8 +37,6 @@ public class MomentServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
 
@@ -51,15 +49,11 @@ public class MomentServlet extends HttpServlet {
         req.setAttribute("rsMessage", rsMessage);
         req.setAttribute("rsComment", rsComment);
 
-
         req.getRequestDispatcher("moment.jsp").forward(req, resp);
     }
 
 
     public void insertComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
-        //ResultSet rsMessage = dao.queryComment();
-        //req.setAttribute("rsMessage", rsMessage);
-        //req.getRequestDispatcher("Moment.jsp").forward(req, resp);
 
         String cmtUsername = req.getParameter("cmtUsername");
         String cmtContent = req.getParameter("cmtContent");
@@ -79,8 +73,6 @@ public class MomentServlet extends HttpServlet {
 
 
         dao.insertComment(cmt);
-        query(req,resp);
-        //req.getRequestDispatcher("moment.jsp").forward(req, resp);
-
+        //query(req,resp);
     }
 }

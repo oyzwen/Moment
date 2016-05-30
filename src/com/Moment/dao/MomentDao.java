@@ -22,7 +22,6 @@ public class MomentDao {
 
     //查询消息
     public ResultSet queryMessage() throws SQLException {
-        //String sqlStr = "SELECT message.*,comment.* FROM message, comment where message.msgID = comment.msgID";
         //String sqlStr = "SELECT * FROM message left join comment on message.msgID = comment.msgID";
         String sqlStr = "SELECT * FROM message";
         ResultSet rs = SqlHelper.executeQuery(sqlStr, null);
@@ -31,7 +30,7 @@ public class MomentDao {
 
     //查询评论
     public ResultSet queryComment() throws SQLException {
-        String sqlStr = "SELECT * FROM comment";
+        String sqlStr = "SELECT * FROM comment order by cmtID ASC";
         ResultSet rs = SqlHelper.executeQuery(sqlStr, null);
         return rs;
     }

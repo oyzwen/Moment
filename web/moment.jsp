@@ -1,5 +1,6 @@
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.*" %><%--
+<%@ page import="java.util.*" %>
+<%@ page import="com.Moment.model.Comment" %><%--
   Created by IntelliJ IDEA.
   User: ow
   Date: 16/5/20
@@ -245,38 +246,93 @@
                 var cmtContent = '';
 
                 if (url == "img/liked_gray.png") {
-//                    alert("还没点赞,现在点赞")
+                    //alert("还没点赞,现在点赞")
                     $(this).children("img").attr("src", "img/liked.png");
-                    location.href = "moment?method=insertComment&cmtUsername=" + username + "&cmtContent=" + cmtContent + "&msgID=" + msgID + "&liked=1";
+
+
+                    var node = $(this).parent().parent().children("div[class='interaction']").children("p[class='liked']");
+                    if(node.length>0){//已有人点赞
+                        node.append(","+username);
+                    }else{//还没人点赞
+                        var str = "<img class='icon_liked' src='img/liked_blue.png'/>"+
+                                        "<p class='liked'>" +username+"</p>"+
+                                        "<div class='line'></div>";
+
+                        $(this).parent().parent().children("div[class='interaction']").prepend(str);
+
+                    }
+
+                    // location.href = "moment?method=insertComment&cmtUsername=" + username + "&cmtContent=" + cmtContent + "&msgID=" + msgID + "&liked=1";
+
+                    $.ajax({
+                        url: "moment",
+                        data: {
+                            cmtUsername: username,
+                            cmtContent: cmtContent,
+                            msgID: msgID,
+                            liked: "1",
+                            method: "insertComment"
+                        },
+                        type: "POST",
+                        datatype: "text",
+                        sucess: function () {
+                            //alert("sucess!")
+                        },
+                        error: function () {
+                            alert("error");
+                            return false;
+                        }
+                    })
                 } else {
                     //alert("点过赞了,现在取消")
                     //$(this).children("img").attr("src", "img/liked_gray.png");
 
                 }
+
             });
 
-            $(".icon_comment").toggle(showInput, hideInput);
-            function showInput() {
-                $(this).parent().parent().children(".interaction").children(".showInput").show();
-            }
+            $(".icon_comment").click(function () {
+                if ($(".showInput").is(":visible")) {
+                    $(this).parent().parent().children(".interaction").children(".showInput").hide();
+                } else {
+                    $(this).parent().parent().children(".interaction").children(".showInput").show();
+                    $(this).parent().parent().children(".interaction").children(".showInput").children("input").focus();
+                }
+            });
 
-            function hideInput() {
-                $(this).parent().parent().children(".interaction").children(".showInput").hide();
-            }
-
-
-            $(".btnSend").click(function(){
+            $(".btnSend").click(function () {
                 var msgID = $(this).parent().parent().parent().parent().children(".item").attr("msgID");
                 var username = $("#container").children("#header").children(".title").html();
                 var cmtContent = $(this).parent().children("input").val();
 
-//              alert("评论成功!!!--------"+msgID+"--------"+cmtContent+"------"+username);
-                location.href = "moment?method=insertComment&cmtUsername=" + username + "&cmtContent=" + cmtContent + "&msgID=" + msgID + "&liked=0";
+                $(".showInput").hide();//隐藏输入框
+                $(this).parent().children("input").val("");//清空输入框
 
+                //location.href = "moment?method=insertComment&cmtUsername=" + username + "&cmtContent=" + cmtContent + "&msgID=" + msgID + "&liked=0";
 
+                $.ajax({
+                    url: "moment",
+                    data: {
+                        cmtUsername: username,
+                        cmtContent: cmtContent,
+                        msgID: msgID,
+                        liked: "0",
+                        method: "insertComment"
+                    },
+                    type: "POST",
+                    datatype: "text",
+                    sucess: function () {
+                        //alert("sucess!")
+                    },
+                    error: function () {
+                        alert("error");
+                        return false;
+                    }
+                })
+
+                var str = "<p class='comment'><span class='username'>" + username + ":</span>" + cmtContent + "</p>";
+                $(this).parent().before(str);
             })
-
-
 
         })
     </script>
@@ -288,8 +344,6 @@
         String myHeadImg = "";
         String myUsername = "";
         while (rsCurUser.next()) {
-//            String headImg = rsCurUser.getString("headImg");
-//            String curUsername = rsCurUser.getString("username");
             myHeadImg = rsCurUser.getString("headImg");
             myUsername = rsCurUser.getString("username");
         }
@@ -317,7 +371,7 @@
 
             String likedUsername = "";
             boolean iliked = false;
-            Map<String, String> commentMap = new HashMap<String, String>();
+            ArrayList cmtArr = new ArrayList();
 
             rsComment.beforeFirst();
             while (rsComment.next()) {
@@ -327,16 +381,25 @@
                 String cmtUsername = rsComment.getString("cmtUsername");
                 String curMsgID = rsComment.getString("msgID");
 
+                Comment cmt = new Comment();
+                cmt.setCmtID(cmtID);
+                cmt.setCmtUsername(cmtUsername);
+                cmt.setCmtContent(cmtContent);
+                cmt.setLiked(liked);
+                cmt.setMsgID(curMsgID);
+
+
                 if (curMsgID.equals(msgID)) {
                     if (liked.equals("1")) {//点赞了
                         if (likedUsername.length() > 0) likedUsername += ",";
                         likedUsername += cmtUsername;
-                        if (cmtUsername.equals(myUsername)) iliked = true;
+                        if (cmtUsername.equals(myUsername)) iliked = true;//当前用户点赞,显示红心
                     }
 
                     if (cmtContent.length() > 0) {
-                        commentMap.put(cmtUsername, cmtContent);
+                        cmtArr.add(cmt);
                     }
+
                 }
             }
 
@@ -346,9 +409,8 @@
                     "<div class='icon_comment'><img src='img/comment.png'/></div>" +
                     "</div>");
 
-            Iterator it = commentMap.keySet().iterator();
             boolean haveLiked = likedUsername.length() > 0;
-            boolean haveComment = commentMap.size() > 0;
+            boolean haveComment = cmtArr.size() > 0;
 
             out.println("<div class='interaction'>");
 
@@ -358,10 +420,11 @@
                 if (haveComment) out.println("<div class='line'></div>");
             }
 
-            while (it.hasNext()) {
-                Object obj = it.next();
-                String username = (String) obj;
-                String comment = (String) commentMap.get(username);
+            for (int i = 0; i < cmtArr.size(); i++) {
+                Comment cmt = (Comment) cmtArr.get(i);
+
+                String username = (String) cmt.getCmtUsername();
+                String comment = (String) cmt.getCmtContent();
                 out.println("<p class='comment'><span class='username'>" + username + ":</span>" + comment + "</p>");
             }
 
